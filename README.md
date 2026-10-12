@@ -18,6 +18,7 @@ Project-Radar/
 ├── .gitignore                    # Reglas de exclusión para datos y entornos
 ├── requirements.txt              # Dependencias de Python
 ├── README.md                     # Documentación técnica del proyecto
+├── MANUAL_OPERACION_TECNICA.md   # Manual de Operación Técnica oficial
 ├── data/
 │   ├── raw/                      # Data Lake (Zona cruda)
 │   │   ├── faers/                # Archivos ASCII trimestrales FAERS (DEMO, DRUG, REAC...)
