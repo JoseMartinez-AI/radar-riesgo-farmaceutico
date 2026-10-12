@@ -1,0 +1,32 @@
+# Core Data Processing & Big Data
+pandas>=2.0.0
+numpy>=1.24.0
+duckdb>=0.9.0
+dask[complete]>=2023.9.0
+pyarrow>=14.0.0
+
+# NLP & Text Extraction (Datos No Estructurados) & Web Scraping
+spacy>=3.7.0
+pdfplumber>=0.10.0
+requests>=2.31.0
+beautifulsoup4>=4.12.0
+
+# Minería de Datos & Machine Learning
+scikit-learn>=1.3.0
+scipy>=1.11.0
+
+# Almacenamiento & Base de Datos
+sqlalchemy>=2.0.0
+
+# Visualización & Dashboard
+streamlit>=1.30.0
+plotly>=5.18.0
+
+# Testing & Calidad
+pytest>=8.0.0
+
+# Utilidades
+python-dotenv>=1.0.0
+tqdm>=4.66.0
+openpyxl>=3.1.0
+
