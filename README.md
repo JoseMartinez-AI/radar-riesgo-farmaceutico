@@ -1,6 +1,6 @@
 # Radar de Riesgo Farmacéutico Perú-FDA
 > **Sistema de priorización de señales de riesgo farmacológico para DIGEMID (MINSA)**  
-> *Proyecto Productivo (PP) - Arquitectura de Datos Empresariales (Nivel Quinto / EFSRT IV)*
+> *Proyecto Productivo (PP) - Arquitectura de Datos Empresariales*
 
 ---
 
