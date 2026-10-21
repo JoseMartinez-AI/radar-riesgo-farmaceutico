@@ -1,0 +1,11 @@
+farmaco | reaccion | BD(a,b,c,d) | manual(a,b,c,d) | PRR bd/manual | ROR bd/manual | chi2 bd/manual | nivel bd | coincide
+VALPROATO DE SODIO | MALFORMACIONES CONGENITAS | 2,1,1,6 | 2,1,1,6 | 4.67/4.67 | 12.0/12.00 | 0.82/0.82 | Bajo | Si
+VALPROATO DE SODIO | HEPATOTOXICIDAD GRAVE | 1,2,0,7 | 1,2,0,7 | 0.0/nan | 0.0/nan | 0.21/0.21 | Bajo | Si
+CLOZAPINA | AGRANULOCITOSIS | 1,0,1,8 | 1,0,1,8 | 9.0/9.00 | 0.0/nan | 0.62/0.62 | Bajo | Si
+DOMPERIDONA | ARRITMIA VENTRICULAR | 1,0,1,8 | 1,0,1,8 | 9.0/9.00 | 0.0/nan | 0.62/0.62 | Bajo | Si
+AMIODARONA | TOXICIDAD PULMONAR | 1,1,0,8 | 1,1,0,8 | 0.0/nan | 0.0/nan | 0.62/0.62 | Bajo | Si
+AMIODARONA | ARRITMIA VENTRICULAR | 1,1,1,7 | 1,1,1,7 | 4.0/4.00 | 7.0/7.00 | 0.04/0.04 | Bajo | Si
+ISOTRETINOINA | MALFORMACIONES CONGENITAS | 1,0,2,7 | 1,0,2,7 | 4.5/4.50 | 0.0/nan | 0.21/0.21 | Bajo | Si
+FENILBUTAZONA | AGRANULOCITOSIS | 1,0,1,8 | 1,0,1,8 | 9.0/9.00 | 0.0/nan | 0.62/0.62 | Bajo | Si
+METFORMINA | NAUSEAS LEVES | 1,0,0,9 | 1,0,0,9 | 0.0/nan | 0.0/nan | 1.98/1.98 | Bajo | Si
+Casos tras deduplicar: 10 | Coinciden 9 de 9

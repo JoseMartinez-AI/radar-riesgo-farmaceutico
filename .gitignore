@@ -22,3 +22,7 @@ logs/
 .idea/
 .DS_Store
 Thumbs.db
+
+data/raw/faers/2024-Q2-sintetico/
+data/processed/*.db
+evidencias/*.zip

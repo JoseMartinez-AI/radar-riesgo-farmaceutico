@@ -1,0 +1,9 @@
+2026-10-20 21:50:22,945 INFO src.database.schema: Data Warehouse inicializado: data\processed\radar_validacion.db
+2026-10-20 21:50:22,961 INFO __main__: ZIP extraido en: C:\Users\admin\Desktop\Project-Radar\data\raw\faers\2024-Q2-muestra
+2026-10-20 21:50:23,023 INFO __main__: Leido DEMO (DEMO.txt): 10 filas
+2026-10-20 21:50:23,074 INFO __main__: Leido DRUG (DRUG.txt): 10 filas
+2026-10-20 21:50:23,083 INFO __main__: Leido REAC (REAC.txt): 10 filas
+2026-10-20 21:50:23,083 INFO __main__: Casos tras deduplicar: 10 | DRUG: 10 filas | REAC: 10 filas
+2026-10-20 21:50:23,121 INFO __main__: Par CLOZAPINE / AGRANULOCYTOSIS -> a=0 b=0 c=0 d=10
+2026-10-20 21:50:23,121 WARNING __main__: Par CLOZAPINE / AGRANULOCYTOSIS sin casos (a=0): se omite
+2026-10-20 21:50:23,137 INFO __main__: Ingesta completada para 2024-Q2-muestra. Pares insertados: 0 de 1.

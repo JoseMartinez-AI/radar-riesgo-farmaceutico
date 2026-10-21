@@ -1,10 +1,16 @@
 """
 Modulo de ingesta de archivos ASCII trimestrales de FAERS.
 Flujo: descomprimir ZIP -> leer tablas -> deduplicar -> calcular contingencia -> insertar DW.
+
+Uso por linea de comandos:
+    python -m src.pipeline.ingest_faers RUTA_ZIP ANIO TRIMESTRE --pares FARMACO:REACCION [FARMACO:REACCION ...] [--db RUTA_DB]
 """
 from __future__ import annotations
-import zipfile
+import argparse
 import logging
+import re
+import sys
+import zipfile
 from pathlib import Path
 from typing import Optional, List, Tuple
 
@@ -31,17 +37,23 @@ def extract_zip(zip_path: Path, target_dir: Path) -> Path:
 
 
 def read_faers_table(folder: Path, table_name: str) -> pd.DataFrame:
-    """Lee una tabla FAERS desde la carpeta extraida."""
-    for ext in (".txt", ".TXT"):
-        candidates = list(folder.rglob(f"{table_name}{ext}"))
-        if candidates:
-            df = pd.read_csv(
-                candidates[0], delimiter=FAERS_DELIMITER,
-                encoding=FAERS_ENCODING, low_memory=False, on_bad_lines="skip",
-            )
-            df.columns = df.columns.str.lower().str.strip()
-            logger.info("Leido %s: %d filas", table_name, len(df))
-            return df
+    """Lee una tabla FAERS desde la carpeta extraida.
+
+    Acepta tanto DEMO.txt (muestras) como DEMO24Q2.txt (paquetes oficiales de la FDA).
+    """
+    patron = re.compile(rf"{table_name}(\d{{2}}Q\d)?", re.IGNORECASE)
+    candidates = sorted(
+        p for p in folder.rglob("*")
+        if p.suffix.lower() == ".txt" and patron.fullmatch(p.stem)
+    )
+    if candidates:
+        df = pd.read_csv(
+            candidates[0], delimiter=FAERS_DELIMITER,
+            encoding=FAERS_ENCODING, low_memory=False, on_bad_lines="skip",
+        )
+        df.columns = df.columns.str.lower().str.strip()
+        logger.info("Leido %s (%s): %d filas", table_name, candidates[0].name, len(df))
+        return df
     logger.warning("Tabla %s no encontrada en %s", table_name, folder)
     return pd.DataFrame()
 
@@ -99,9 +111,20 @@ def ingest_faers_quarter(
     periodo = f"{anio}-{trimestre}"
     folder = RAW_FAERS_DIR / periodo
     extract_zip(zip_path, folder)
+
     demo = deduplicate_faers(read_faers_table(folder, "DEMO"))
     drug = read_faers_table(folder, "DRUG")
     reac = read_faers_table(folder, "REAC")
+
+    # Solo se cuentan los casos que sobreviven a la deduplicacion (ultima version por caseid)
+    if not demo.empty and "primaryid" in demo.columns:
+        ids = set(demo["primaryid"])
+        drug = drug[drug["primaryid"].isin(ids)] if not drug.empty else drug
+        reac = reac[reac["primaryid"].isin(ids)] if not reac.empty else reac
+        logger.info("Casos tras deduplicar: %d | DRUG: %d filas | REAC: %d filas",
+                    len(ids), len(drug), len(reac))
+
+    insertados = 0
     with engine.begin() as conn:
         conn.execute(
             text("INSERT OR IGNORE INTO dim_tiempo (anio, trimestre, periodo_etiqueta) VALUES (:a,:t,:p)"),
@@ -112,7 +135,10 @@ def ingest_faers_quarter(
         ).scalar()
         for drug_name, reac_name in target_pairs:
             ct = build_contingency_table(drug, reac, drug_name, reac_name)
+            logger.info("Par %s / %s -> a=%d b=%d c=%d d=%d",
+                        drug_name, reac_name, ct["a"], ct["b"], ct["c"], ct["d"])
             if ct["a"] == 0:
+                logger.warning("Par %s / %s sin casos (a=0): se omite", drug_name, reac_name)
                 continue
             metrics = compute_signal_metrics(ct["a"], ct["b"], ct["c"], ct["d"])
             conn.execute(text("INSERT OR IGNORE INTO dim_farmaco (principio_activo) VALUES (:pa)"), {"pa": drug_name})
@@ -125,7 +151,39 @@ def ingest_faers_quarter(
                      "casos_otros_farmacos_reac,casos_otros_farmacos_otras_reac,total_reportes_graves,"
                      "prr,ror,chi_cuadrado,nivel_riesgo) "
                      "VALUES (:f,:r,:t,:a,:b,:c,:d,0,:prr,:ror,:chi2,:nivel)"),
-                {"f":f_id,"r":r_id,"t":t_id,"a":ct["a"],"b":ct["b"],"c":ct["c"],"d":ct["d"],
-                 "prr":metrics["prr"],"ror":metrics["ror"],"chi2":metrics["chi_cuadrado"],"nivel":metrics["nivel_riesgo"]},
+                {"f": f_id, "r": r_id, "t": t_id, "a": ct["a"], "b": ct["b"], "c": ct["c"], "d": ct["d"],
+                 "prr": metrics["prr"], "ror": metrics["ror"],
+                 "chi2": metrics["chi_cuadrado"], "nivel": metrics["nivel_riesgo"]},
             )
-    logger.info("Ingesta completada para %s.", periodo)
+            insertados += 1
+            logger.info("Insertado %s / %s: PRR=%s ROR=%s chi2=%s nivel=%s", drug_name, reac_name,
+                        metrics["prr"], metrics["ror"], metrics["chi_cuadrado"], metrics["nivel_riesgo"])
+    logger.info("Ingesta completada para %s. Pares insertados: %d de %d.",
+                periodo, insertados, len(target_pairs))
+
+
+def _parse_pairs(raw: List[str]) -> List[Tuple[str, str]]:
+    pares = []
+    for item in raw:
+        if ":" not in item:
+            raise SystemExit(f"Par invalido '{item}'. Formato esperado: FARMACO:REACCION")
+        f, r = item.split(":", 1)
+        pares.append((f.strip().upper(), r.strip().upper()))
+    return pares
+
+
+def main(argv: Optional[List[str]] = None) -> None:
+    parser = argparse.ArgumentParser(description="Ingesta de un trimestre FAERS al Data Warehouse SQLite")
+    parser.add_argument("zip_path", type=Path, help="ZIP trimestral de FAERS")
+    parser.add_argument("anio", type=int, help="Anio, por ejemplo 2024")
+    parser.add_argument("trimestre", help="Etiqueta del trimestre, por ejemplo Q2 o Q2-muestra")
+    parser.add_argument("--pares", nargs="+", required=True, help="Pares FARMACO:REACCION")
+    parser.add_argument("--db", type=Path, default=None, help="Ruta de la base SQLite (opcional)")
+    args = parser.parse_args(argv)
+    logging.basicConfig(level=logging.INFO, stream=sys.stdout,
+                        format="%(asctime)s %(levelname)s %(name)s: %(message)s")
+    ingest_faers_quarter(args.zip_path, args.anio, args.trimestre, _parse_pairs(args.pares), args.db)
+
+
+if __name__ == "__main__":
+    main()

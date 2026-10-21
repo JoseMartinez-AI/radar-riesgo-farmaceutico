@@ -1,0 +1,23 @@
+2026-10-20 22:08:05,017 INFO src.database.schema: Data Warehouse inicializado: data\processed\radar_sintetico.db
+2026-10-20 22:08:05,064 INFO __main__: ZIP extraido en: C:\Users\admin\Desktop\Project-Radar\data\raw\faers\2024-Q2-sintetico
+2026-10-20 22:08:05,335 INFO __main__: Leido DEMO (DEMO.txt): 100000 filas
+2026-10-20 22:08:05,927 INFO __main__: Leido DRUG (DRUG.txt): 100000 filas
+2026-10-20 22:08:06,045 INFO __main__: Leido REAC (REAC.txt): 100000 filas
+2026-10-20 22:08:06,083 INFO __main__: Casos tras deduplicar: 100000 | DRUG: 100000 filas | REAC: 100000 filas
+2026-10-20 22:08:06,175 INFO __main__: Par FARMACO_A / REACCION_1 -> a=2000 b=8000 c=4500 d=85500
+2026-10-20 22:08:06,183 INFO __main__: Insertado FARMACO_A / REACCION_1: PRR=4.0 ROR=4.75 chi2=3329.49 nivel=Alto
+2026-10-20 22:08:06,262 INFO __main__: Par FARMACO_B / REACCION_2 -> a=1500 b=8500 c=4500 d=85500
+2026-10-20 22:08:06,262 INFO __main__: Insertado FARMACO_B / REACCION_2: PRR=3.0 ROR=3.35 chi2=1593.97 nivel=Alto
+2026-10-20 22:08:06,354 INFO __main__: Par FARMACO_C / REACCION_3 -> a=1200 b=8800 c=4500 d=85500
+2026-10-20 22:08:06,354 INFO __main__: Insertado FARMACO_C / REACCION_3: PRR=2.4 ROR=2.59 chi2=819.15 nivel=Alto
+2026-10-20 22:08:06,454 INFO __main__: Par FARMACO_D / REACCION_1 -> a=500 b=9500 c=6000 d=84000
+2026-10-20 22:08:06,454 INFO __main__: Insertado FARMACO_D / REACCION_1: PRR=0.75 ROR=0.74 chi2=40.86 nivel=Bajo
+2026-10-20 22:08:06,544 INFO __main__: Par FARMACO_D / REACCION_2 -> a=500 b=9500 c=5500 d=84500
+2026-10-20 22:08:06,544 INFO __main__: Insertado FARMACO_D / REACCION_2: PRR=0.82 ROR=0.81 chi2=19.5 nivel=Bajo
+2026-10-20 22:08:06,635 INFO __main__: Par FARMACO_E / REACCION_2 -> a=500 b=9500 c=5500 d=84500
+2026-10-20 22:08:06,635 INFO __main__: Insertado FARMACO_E / REACCION_2: PRR=0.82 ROR=0.81 chi2=19.5 nivel=Bajo
+2026-10-20 22:08:06,754 INFO __main__: Par FARMACO_F / REACCION_1 -> a=2500 b=47500 c=4000 d=46000
+2026-10-20 22:08:06,754 INFO __main__: Insertado FARMACO_F / REACCION_1: PRR=0.62 ROR=0.61 chi2=369.72 nivel=Bajo
+2026-10-20 22:08:06,845 INFO __main__: Par FARMACO_F / REACCION_3 -> a=2500 b=47500 c=3200 d=46800
+2026-10-20 22:08:06,853 INFO __main__: Insertado FARMACO_F / REACCION_3: PRR=0.78 ROR=0.77 chi2=90.9 nivel=Bajo
+2026-10-20 22:08:06,863 INFO __main__: Ingesta completada para 2024-Q2-sintetico. Pares insertados: 8 de 8.

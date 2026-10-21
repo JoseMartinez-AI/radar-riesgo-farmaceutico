@@ -1,0 +1,5 @@
+Filas DEMO, DRUG, REAC: 10 10 10
+Huerfanos DRUG: 0 (0.000%)
+Huerfanos REAC: 0 (0.000%)
+caseid duplicados: 0
+Completitud (farmaco, reaccion y fecha fda_dt): 100.00%

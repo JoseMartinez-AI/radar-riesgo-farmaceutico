@@ -1,12 +1,18 @@
 """
-Módulo de recolección y Web Scraping / API Scraper para fuentes no estructuradas:
-1. openFDA API Scraper: Extrae advertencias (warnings, boxed_warning, contraindications)
-   y motivos de retiro (drug/enforcement) directamente desde los endpoints de openFDA.
-2. DIGEMID Scraper & Downloader: Módulo de descarga y extracción de comunicados de alertas
-   de farmacovigilancia (HTML y PDFs) con manejo de encabezados, reintentos y tolerancia a fallos.
+Modulo de recoleccion para fuentes no estructuradas:
+1. openFDA API Scraper: extrae advertencias (warnings, boxed_warning, contraindications)
+   y motivos de retiro (drug/enforcement) desde los endpoints de openFDA.
+2. Analisis de alertas de farmacovigilancia de DIGEMID: analiza alertas HTML ya descargadas
+   y descarga PDFs cuando se conoce su URL. No descubre boletines de forma automatica.
+
+Uso por linea de comandos:
+    python -m src.pipeline.scraper --farmacos clozapine "valproic acid"
 """
 from __future__ import annotations
+import argparse
+import json
 import logging
+import sys
 from pathlib import Path
 from typing import Dict, Any, List, Optional
 import requests
@@ -56,13 +62,13 @@ def scrape_openfda_label(drug_name: str, timeout: int = 10) -> Dict[str, Any]:
             results = data.get("results", [])
             if not results:
                 return {"encontrado": False, "farmaco": clean_name}
-            
+
             first_label = results[0]
             boxed = " ".join(first_label.get("boxed_warning", []))
             warnings = " ".join(first_label.get("warnings", []))
             contra = " ".join(first_label.get("contraindications", []))
             adverse = " ".join(first_label.get("adverse_reactions", []))
-            
+
             return {
                 "encontrado": True,
                 "farmaco": clean_name,
@@ -73,7 +79,7 @@ def scrape_openfda_label(drug_name: str, timeout: int = 10) -> Dict[str, Any]:
                 "fuente": "openfda_label"
             }
         elif resp.status_code == 404:
-            logger.info("Fármaco '%s' no encontrado en openFDA drug/label", clean_name)
+            logger.info("Farmaco '%s' no encontrado en openFDA drug/label", clean_name)
             return {"encontrado": False, "farmaco": clean_name, "motivo": "No encontrado (404)"}
         else:
             logger.warning("Error de respuesta en openFDA (%d): %s", resp.status_code, resp.text[:200])
@@ -111,37 +117,36 @@ def scrape_openfda_recalls(drug_name: str, timeout: int = 10) -> List[Dict[str, 
 
 
 # ============================================================================
-# 2. WEB SCRAPING DE HTML PARA ALERTAS DE FARMACOVIGILANCIA (DIGEMID)
+# 2. ANALISIS DE HTML PARA ALERTAS DE FARMACOVIGILANCIA (DIGEMID)
 # ============================================================================
 
 def parse_html_alert(html_content: str) -> Dict[str, Any]:
     """
     Extrae de forma estructurada los campos clave de una alerta sanitaria en HTML:
-    - Título del boletín / alerta
-    - Fecha o número de alerta
+    - Titulo del boletin / alerta
     - Texto descriptivo y advertencias
     - Enlaces a documentos adjuntos (PDFs)
     """
     if not html_content:
         return {"titulo": "", "contenido": "", "pdf_urls": []}
-    
+
     soup = BeautifulSoup(html_content, "html.parser")
-    
+
     # Extraer encabezado principal con prioridad h1 > h2 > h3 > title
     title_tag = soup.find(["h1", "h2", "h3"]) or soup.find("title")
     titulo = title_tag.get_text(strip=True) if title_tag else ""
-    
-    # Extraer párrafos y contenido descriptivo
+
+    # Extraer parrafos y contenido descriptivo
     paragraphs = [p.get_text(strip=True) for p in soup.find_all("p") if p.get_text(strip=True)]
     contenido = "\n".join(paragraphs)
-    
+
     # Extraer enlaces a PDFs adjuntos
     pdf_urls = []
     for a in soup.find_all("a", href=True):
         href = a["href"]
         if href.lower().endswith(".pdf"):
             pdf_urls.append(href)
-            
+
     return {
         "titulo": titulo,
         "contenido": contenido,
@@ -152,7 +157,7 @@ def parse_html_alert(html_content: str) -> Dict[str, Any]:
 
 def download_alert_pdf(pdf_url: str, save_path: Path, timeout: int = 15) -> bool:
     """
-    Descarga de forma segura un PDF de alerta de farmacovigilancia a la carpeta local.
+    Descarga un PDF de alerta de farmacovigilancia a la carpeta local.
     """
     try:
         resp = requests.get(pdf_url, headers=DEFAULT_HEADERS, timeout=timeout, stream=True)
@@ -169,3 +174,43 @@ def download_alert_pdf(pdf_url: str, save_path: Path, timeout: int = 15) -> bool
     except Exception as exc:
         logger.error("Error al descargar PDF desde '%s': %s", pdf_url, exc)
         return False
+
+
+# ============================================================================
+# 3. PUNTO DE ENTRADA POR LINEA DE COMANDOS
+# ============================================================================
+
+def main(argv: Optional[List[str]] = None) -> None:
+    """Analiza las alertas HTML locales y consulta openFDA, guardando las respuestas en disco."""
+    parser = argparse.ArgumentParser(description="Analiza alertas HTML de DIGEMID y consulta openFDA")
+    parser.add_argument("--farmacos", nargs="*", default=[],
+                        help="Nombres de farmacos en ingles para consultar openFDA")
+    parser.add_argument("--html-dir", type=Path, default=RAW_DIGEMID_DIR,
+                        help="Carpeta con alertas HTML de DIGEMID descargadas")
+    args = parser.parse_args(argv)
+    logging.basicConfig(level=logging.INFO, stream=sys.stdout,
+                        format="%(asctime)s %(levelname)s %(name)s: %(message)s")
+
+    html_files = sorted(args.html_dir.glob("*.html"))
+    logger.info("Alertas HTML locales encontradas en %s: %d", args.html_dir, len(html_files))
+    for p in html_files:
+        r = parse_html_alert(p.read_text(encoding="utf-8", errors="ignore"))
+        logger.info("Alerta %s | titulo=%r | parrafos=%d | pdfs=%d | caracteres=%d",
+                    p.name, r["titulo"], r.get("num_parrafos", 0), len(r["pdf_urls"]), len(r["contenido"]))
+
+    RAW_OPENFDA_DIR.mkdir(parents=True, exist_ok=True)
+    for f in args.farmacos:
+        lab = scrape_openfda_label(f)
+        logger.info("openFDA label %s | encontrado=%s | boxed_warning=%d caracteres",
+                    f, lab.get("encontrado"), len(lab.get("boxed_warning", "")))
+        stem = f.lower().replace(" ", "_")
+        (RAW_OPENFDA_DIR / f"label_{stem}_live.json").write_text(
+            json.dumps(lab, ensure_ascii=False, indent=2), encoding="utf-8")
+        rec = scrape_openfda_recalls(f)
+        logger.info("openFDA enforcement %s | retiros=%d", f, len(rec))
+        (RAW_OPENFDA_DIR / f"recalls_{stem}_live.json").write_text(
+            json.dumps(rec, ensure_ascii=False, indent=2), encoding="utf-8")
+
+
+if __name__ == "__main__":
+    main()

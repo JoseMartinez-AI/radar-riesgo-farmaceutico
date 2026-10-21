@@ -1,0 +1,10 @@
+FARMACO_A | REACCION_1 | PRR=4.0 chi2=3329.49 | nivel=Alto | referencia=senal
+FARMACO_B | REACCION_2 | PRR=3.0 chi2=1593.97 | nivel=Alto | referencia=senal
+FARMACO_C | REACCION_3 | PRR=2.4 chi2=819.15 | nivel=Alto | referencia=senal
+FARMACO_D | REACCION_1 | PRR=0.75 chi2=40.86 | nivel=Bajo | referencia=sin senal
+FARMACO_D | REACCION_2 | PRR=0.82 chi2=19.5 | nivel=Bajo | referencia=sin senal
+FARMACO_E | REACCION_2 | PRR=0.82 chi2=19.5 | nivel=Bajo | referencia=sin senal
+FARMACO_F | REACCION_1 | PRR=0.62 chi2=369.72 | nivel=Bajo | referencia=sin senal
+FARMACO_F | REACCION_3 | PRR=0.78 chi2=90.9 | nivel=Bajo | referencia=sin senal
+VP=3 FP=0 FN=0 VN=5
+Sensibilidad=100.0%  Precision=100.0%  Especificidad=100.0%
