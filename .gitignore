@@ -1,28 +1,52 @@
-# Entorno y dependencias
+# ============================================================
+# .gitignore — Radar de Riesgo Farmacéutico Perú-FDA
+# ============================================================
+
+# --- Entorno virtual y dependencias ---
 .venv/
+venv/
+env/
+.env
+*.egg-info/
+dist/
+build/
+
+# --- Caché de Python ---
 __pycache__/
 *.py[cod]
 *$py.class
-*.ipynb_checkpoints/
+*.pyo
 
-# Datos crudos y Data Lake (no versionar archivos pesados de FAERS/PDFs)
+# --- Pytest y cobertura ---
+.pytest_cache/
+.coverage
+htmlcov/
+coverage.xml
+
+# --- Data Lake: archivos de entrada (pesados, no se versionan) ---
 data/raw/
 data/processed/
 *.parquet
 *.sqlite
 *.db
 
-# Salidas de modelos y logs
-models/
-logs/
-.env
+# --- Datos sintéticos de prueba (ZIPs pesados) ---
+docs/datos_sinteticos/*.zip
 
-# Configuración del IDE / OS
+# --- Logs y modelos ---
+logs/
+*.log
+models/
+
+# --- Documentos privados / Informe institucional y bitácora ---
+docs/informe/
+*.docx
+*.xlsx
+
+# --- IDE / OS ---
 .vscode/
 .idea/
 .DS_Store
 Thumbs.db
+*.ipynb_checkpoints/
 
-data/raw/faers/2024-Q2-sintetico/
-data/processed/*.db
-evidencias/*.zip

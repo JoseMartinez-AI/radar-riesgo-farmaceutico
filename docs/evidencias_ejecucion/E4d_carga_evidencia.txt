@@ -1,0 +1,9 @@
+2026-10-21 08:08:52,799 INFO src.database.schema: Data Warehouse inicializado: data\processed\radar_validacion.db
+2026-10-21 08:08:52,806 INFO __main__: Insertado: VALPROATO DE SODIO | DIGEMID | alerta_html | 555 caracteres | score=0.095 | terminos=[hepatotoxicidad, malformaciones congenitas]
+2026-10-21 08:08:52,809 INFO __main__: Insertado: KETOCONAZOL | DIGEMID | alerta_html | 348 caracteres | score=0.095 | terminos=[hepatotoxicidad, falla hepatica fulminante]
+2026-10-21 08:08:52,814 INFO __main__: Insertado: CLOZAPINA | openFDA label | boxed_warning | 4718 caracteres | score=0.000 | terminos=[]
+2026-10-21 08:08:52,815 INFO __main__: Insertado: CLOZAPINA | openFDA label | contraindications | 354 caracteres | score=0.095 | terminos=[stevens-johnson syndrome, contraindicated]
+2026-10-21 08:08:52,815 WARNING __main__: Label label_metformina_live.json sin farmaco asociado en LABELS: se omite
+2026-10-21 08:08:52,833 INFO __main__: Insertado: VALPROATO DE SODIO | openFDA label | boxed_warning | 4642 caracteres | score=0.190 | terminos=[hepatotoxicity, congenital malformations, neural tube defects, contraindicated]
+2026-10-21 08:08:52,835 INFO __main__: Insertado: VALPROATO DE SODIO | openFDA label | contraindications | 1457 caracteres | score=0.048 | terminos=[contraindicated]
+2026-10-21 08:08:52,851 INFO __main__: Carga completada. Insertados: 6 | Omitidos o duplicados: 3 | Total en tabla: 6

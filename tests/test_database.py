@@ -2,10 +2,6 @@
 Tests de integracion para el esquema y pipeline del Data Warehouse.
 Usa una base de datos temporal para no contaminar datos de produccion.
 """
-import sys
-from pathlib import Path
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-
 import pytest
 from sqlalchemy import text
 from src.database.schema import init_database

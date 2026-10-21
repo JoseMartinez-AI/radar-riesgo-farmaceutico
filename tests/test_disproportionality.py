@@ -1,10 +1,6 @@
 """Tests unitarios para el motor de mineria de datos de desproporcionalidad.
 Cubre PRR, ROR, Chi2 de Yates, evaluacion de nivel de riesgo, IC95% y metricas compuestas.
 """
-import sys
-from pathlib import Path
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-
 import pytest
 from src.mining.disproportionality import (
     calculate_prr,

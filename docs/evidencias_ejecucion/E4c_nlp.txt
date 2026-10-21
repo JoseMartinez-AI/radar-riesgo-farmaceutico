@@ -1,0 +1,31 @@
+=== PARTE 1: alertas reales de DIGEMID ===
+alerta_12_2023_valproato.html | Alerta Sanitaria N° 12-2023-DIGEMID: Restricciones de uso para Valproato de Sodio
+   resultado: {"terminos_detectados": ["hepatotoxicidad", "malformaciones congenitas"], "conteo_terminos": 2, "score_severidad_texto": 0.095, "es_alerta_critica": true}
+alerta_15_2023_ketoconazol.html | Alerta Sanitaria N° 15-2023-DIGEMID: Suspensión de comercialización de Ketoconazol vía oral
+   resultado: {"terminos_detectados": ["hepatotoxicidad", "falla hepatica fulminante"], "conteo_terminos": 2, "score_severidad_texto": 0.095, "es_alerta_critica": true}
+
+=== PARTE 2: muestra etiquetada (20 frases) ===
+01 | esperado=1 obtenido=1 | OK | El valproato puede causar malformaciones congenitas graves cuando se u
+02 | esperado=1 obtenido=1 | OK | Se han notificado casos de hepatotoxicidad grave, incluida insuficienc
+03 | esperado=1 obtenido=1 | OK | El uso de clozapina se asocia a agranulocitosis potencialmente mortal 
+04 | esperado=1 obtenido=1 | OK | El producto esta contraindicado en pacientes con hipersensibilidad con
+05 | esperado=1 obtenido=1 | OK | Se ha reportado arritmia ventricular y prolongacion del intervalo QT c
+06 | esperado=1 obtenido=0 | ERROR | La amiodarona puede producir toxicidad pulmonar, incluida fibrosis pul
+07 | esperado=1 obtenido=0 | ERROR | Existe riesgo de pancreatitis hemorragica con desenlace fatal en menor
+08 | esperado=1 obtenido=0 | ERROR | La isotretinoina es teratogenica y esta contraindicada en mujeres emba
+09 | esperado=1 obtenido=0 | ERROR | Esta medicina puede dañar al bebe durante la gestacion; evite usarla s
+10 | esperado=1 obtenido=0 | ERROR | Pueden presentarse reacciones que ponen en peligro la vida y requieren
+11 | esperado=0 obtenido=0 | OK | Conservar el producto a temperatura no mayor de 30 grados, protegido d
+12 | esperado=0 obtenido=0 | OK | Cada tableta contiene 500 mg de principio activo y excipientes c.s.p.
+13 | esperado=0 obtenido=0 | OK | Para mayor informacion comunicarse con la Direccion General de Medicam
+14 | esperado=0 obtenido=0 | OK | El envase contiene 30 tabletas recubiertas en blister de aluminio.
+15 | esperado=0 obtenido=0 | OK | La presente alerta se publica para conocimiento de los profesionales d
+16 | esperado=0 obtenido=0 | OK | El titular del registro sanitario es el laboratorio indicado en la eti
+17 | esperado=0 obtenido=0 | OK | Tomar con un vaso de agua despues de los alimentos.
+18 | esperado=0 obtenido=0 | OK | Via de administracion oral; presentacion en frasco de 120 mililitros.
+19 | esperado=0 obtenido=1 | ERROR | No se han reportado casos de hepatotoxicidad ni de malformaciones en l
+20 | esperado=0 obtenido=0 | OK | El medicamento fue retirado por un defecto en el etiquetado del envase
+Clave usada para la prediccion: terminos_detectados
+VP=5 FP=1 FN=5 VN=9
+Exactitud=70.0%  Precision=83.3%  Sensibilidad=50.0%
+Criterio fijado antes de la prueba: exactitud >= 80%

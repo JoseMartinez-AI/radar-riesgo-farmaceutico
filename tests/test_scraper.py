@@ -5,10 +5,6 @@ Verifica:
 2. Scraping y parsing de HTML con BeautifulSoup (título, contenido, párrafos y extracción de enlaces PDF).
 3. Manejo de errores de red, respuestas vacías y códigos de estado (404/500).
 """
-import sys
-from pathlib import Path
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-
 import pytest
 from unittest.mock import patch, MagicMock
 from src.pipeline.scraper import (

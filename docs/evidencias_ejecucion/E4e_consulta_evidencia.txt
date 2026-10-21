@@ -1,0 +1,6 @@
+('VALPROATO DE SODIO', 'DIGEMID', 'alerta_html', 555, 0.095, 'hepatotoxicidad, malformaciones congenitas')
+('KETOCONAZOL', 'DIGEMID', 'alerta_html', 348, 0.095, 'hepatotoxicidad, falla hepatica fulminante')
+('CLOZAPINA', 'openFDA label', 'boxed_warning', 4718, 0.0, '')
+('CLOZAPINA', 'openFDA label', 'contraindications', 354, 0.095, 'stevens-johnson syndrome, contraindicated')
+('VALPROATO DE SODIO', 'openFDA label', 'boxed_warning', 4642, 0.19, 'hepatotoxicity, congenital malformations, neural tube defects, contraindicated')
+('VALPROATO DE SODIO', 'openFDA label', 'contraindications', 1457, 0.048, 'contraindicated')

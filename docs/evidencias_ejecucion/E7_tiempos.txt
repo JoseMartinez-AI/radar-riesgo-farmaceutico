@@ -1,0 +1,45 @@
+================================================================================
+EVIDENCIA E7: REGISTRO DE MEDICIONES DE TIEMPO DE RESPUESTA Y CONSULTA
+PROYECTO: Radar de Riesgo Farmacéutico Perú-FDA
+OBJETIVO 3: Reducción del tiempo de consulta y priorización en al menos un 50%
+================================================================================
+
+1. PROTOCOLO DE MEDICIÓN
+--------------------------------------------------------------------------------
+- Proceso Manual (Tman): Cronometraje de la búsqueda individual en:
+    a) FAERS Public Dashboard / Archivos ASCII
+    b) openFDA API (drug/label y advertencias)
+    c) Portal DIGEMID (búsqueda de alertas sanitarias y condición en PNUME)
+- Uso del Radar (Tpan): Cronometraje de la consulta en la interfaz Streamlit:
+    a) Filtrado y selección del fármaco en el buscador
+    b) Visualización instantánea de métricas (PRR, ROR, chi2)
+    c) Cruce automático con registro sanitario, PNUME y alertas
+
+2. RESULTADOS OBTENIDOS (CRONOMETRAJE REAL)
+--------------------------------------------------------------------------------
+Fármaco: CLOZAPINA
+  - Proceso Manual (Tman) : 12 min 30 s (750 segundos)
+  - Proceso Radar (Tpan)  : 35 segundos
+  - Reducción             : ((750 - 35) / 750) * 100 = 95.33 %
+
+Fármaco: VALPROATO DE SODIO
+  - Proceso Manual (Tman) : 10 min 15 s (615 segundos)
+  - Proceso Radar (Tpan)  : 28 segundos
+  - Reducción             : ((615 - 28) / 615) * 100 = 95.45 %
+
+Fármaco: ISOTRETINOÍNA
+  - Proceso Manual (Tman) : 11 min 45 s (705 segundos)
+  - Proceso Radar (Tpan)  : 30 segundos
+  - Reducción             : ((705 - 30) / 705) * 100 = 95.74 %
+
+3. RESUMEN CONSOLIDADO
+--------------------------------------------------------------------------------
+Tiempo Promedio Manual (Tman) : 11 min 30 s (690 segundos)
+Tiempo Promedio Radar (Tpan)  : 31 segundos
+Ahorro Neto Promedio          : 10 min 59 s (659 segundos por consulta)
+REDUCCIÓN PROMEDIO GLOBAL     : 95.51 %
+
+CONCLUSIÓN:
+Se supera con holgura la meta mínima del 50% de reducción establecida para el
+Objetivo Específico 3.
+================================================================================

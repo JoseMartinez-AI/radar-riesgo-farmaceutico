@@ -1,8 +1,4 @@
 """Tests unitarios para el modulo de exportacion de reportes CSV."""
-import sys
-from pathlib import Path
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-
 import pytest
 from src.reports.exporter import generate_csv_bytes, build_signal_report
 

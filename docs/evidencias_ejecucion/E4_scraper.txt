@@ -1,0 +1,10 @@
+2026-10-21 07:32:32,797 INFO __main__: Alertas HTML locales encontradas en C:\Users\admin\Desktop\Project-Radar\data\raw\digemid: 2
+2026-10-21 07:32:32,812 INFO __main__: Alerta alerta_12_2023_valproato.html | titulo='Alerta Sanitaria N° 12-2023-DIGEMID: Restricciones de uso para Valproato de Sodio' | parrafos=3 | pdfs=1 | caracteres=555
+2026-10-21 07:32:32,815 INFO __main__: Alerta alerta_15_2023_ketoconazol.html | titulo='Alerta Sanitaria N° 15-2023-DIGEMID: Suspensión de comercialización de Ketoconazol vía oral' | parrafos=2 | pdfs=1 | caracteres=348
+2026-10-21 07:32:35,106 INFO __main__: openFDA label clozapine | encontrado=True | boxed_warning=4718 caracteres
+2026-10-21 07:32:36,491 INFO __main__: openFDA enforcement clozapine | retiros=3
+2026-10-21 07:32:38,063 INFO __main__: openFDA label valproic acid | encontrado=True | boxed_warning=4642 caracteres
+2026-10-21 07:32:39,378 INFO __main__: openFDA enforcement valproic acid | retiros=3
+2026-10-21 07:32:40,571 INFO __main__: Farmaco 'metformina' no encontrado en openFDA drug/label
+2026-10-21 07:32:40,571 INFO __main__: openFDA label metformina | encontrado=False | boxed_warning=0 caracteres
+2026-10-21 07:32:41,763 INFO __main__: openFDA enforcement metformina | retiros=0

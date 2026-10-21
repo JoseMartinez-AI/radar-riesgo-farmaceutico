@@ -1,0 +1,5 @@
+_normalize (text: 'str') -> 'str'
+clean_clinical_text (text: 'str') -> 'str'
+detect_risk_signals_in_text (text: 'str', lang: 'str' = 'es') -> 'Dict[str, Any]'
+extract_text_from_pdf (pdf_path: 'Path') -> 'str'
+process_digemid_pdf (pdf_path: 'Path', lang: 'str' = 'es') -> 'Dict[str, Any]'

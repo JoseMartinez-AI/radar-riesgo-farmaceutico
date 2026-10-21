@@ -1,8 +1,4 @@
 """Tests unitarios para el modulo NLP de extraccion y deteccion de senales."""
-import sys
-from pathlib import Path
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-
 import pytest
 from src.nlp.extractor import (
     clean_clinical_text,
